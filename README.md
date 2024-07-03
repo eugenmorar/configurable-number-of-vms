@@ -30,8 +30,8 @@ But before launch make this preparatory step (0) create a new certificate in you
 | Name | Description | Type | Default | Required |
 | --- | --- | --- | --- | --- | 
 | vm_flavor | The base image for VMs. | string | n/a | yes |
-vm_type	Instance type for this group of VMs.	string	n/a	yes
-vm_count	The number of instances.	number	2	yes
+| vm_type |	Instance type for this group of VMs. | string | n/a | yes |
+| vm_count | The number of instances. | number | 2 | yes |
 
 
 ## How it works
