@@ -29,3 +29,8 @@ terraform.rc
 manifests/
 .terraform.lock.hcl
 *.pem
+
+# Exclude all .tfvars files from the repo but not for this project!
+# Are likely to contain sensitive data, such as password, private keys, and other secrets. 
+# *.tfvars
+# *.tfvars.json
