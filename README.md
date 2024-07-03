@@ -5,7 +5,7 @@ This repo implements the following requirements using aws and terraform:
 * for each VM specify VM flavor and VM image
 * VM admin passwords must be generated automatically and should be different on each VM
 * the VMs should reside in the same network VPC or virtual net and should be able to ping each other
-* the code automatically ping from one VM to each other in a round-robin fashion (VM0-> VM 1, VM1->VM2, VM2->VM0) 
+* the code automatically ping instances in a round-robin fashion (VM0-> VM1, VM1->VM2, VM2->VM0) 
 * record the ping_result (fail/pass between source and destination) into one terraform output variable
 
 ## Create
