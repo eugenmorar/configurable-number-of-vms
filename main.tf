@@ -131,26 +131,25 @@ resource "aws_instance" "vm-instance" {
 }
 
 resource "null_resource" "run_script" {
+    count = var.vm_count
 
     triggers = {
-        public_ip = aws_instance.vm-instance[var.vm_count - 1].public_ip
+        public_ip = "${aws_instance.vm-instance.*.public_ip[count.index]}"
     }
-
-    count = var.vm_count
     
     provisioner "remote-exec" {
         connection {
             type = "ssh"
             user = "ubuntu"
             private_key=file("./assessment-tf.pem")
-            host = "${aws_instance.vm-instance[count.index % var.vm_count].public_ip}"
+            host = "${aws_instance.vm-instance[count.index].public_ip}"
         }
 
-        inline = ["echo 'connected!'"]
+        inline = ["echo 'Connected to ${aws_instance.vm-instance[count.index].public_ip}!'"]
     }
   
     provisioner "local-exec" {
-        command = "${path.module}/ping.sh ${aws_instance.vm-instance[count.index % var.vm_count].public_ip} ${aws_instance.vm-instance[count.index % var.vm_count].private_ip} ${aws_instance.vm-instance[(count.index + 1) % var.vm_count].private_ip} >> results"
+        command = "${path.module}/ping.sh ${aws_instance.vm-instance[count.index].public_ip} ${aws_instance.vm-instance[count.index].private_ip} ${aws_instance.vm-instance[(count.index + 1) % var.vm_count].private_ip} >> results"
     }
 }
 
