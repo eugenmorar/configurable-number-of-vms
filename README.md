@@ -1,14 +1,15 @@
 # configurable-number-of-vms
-This repo implements the following requirements using aws and terraformȘ
+This repo implements the following requirements using aws and terraform:
 
-* the code must be able create a configurable number of VMs (any number between 2 and 100); for each VM the following parameters can be specified: the VM flavor, the VM image
+* the code creates a configurable number of VMs (any number between 2 and 100)
+* for each VM specify VM flavor and VM image
 * VM admin passwords must be generated automatically and should be different on each VM
 * the VMs should reside in the same network VPC or virtual net and should be able to ping each other
-* the code have to automatically run a ping from one VM to each other in a round-robin fashion (example for 3 VMs: VM 0 ping VM 1, VM 1 ping VM 2 and VM 2 ping VM 0) and record the result (fail/pass between source and destination)
-* the results (ping outputs) must be aggregated in one terraform output variabl
+* the code automatically ping from one VM to each other in a round-robin fashion (VM0-> VM 1, VM1->VM2, VM2->VM0) 
+* record the ping_result (fail/pass between source and destination) into one terraform output variable
 
 ## Create
-To provision this example, populate terraform.tfvars with the required variables for vm_flavor, vm_count and vm_type.\
+To provision this example, populate terraform.tfvars with the required variables for vm_flavor, vm_count and vm_type.
 ```
 vm_flavor = "ami-04b70fa74e45c3917"
 vm_count = 3
