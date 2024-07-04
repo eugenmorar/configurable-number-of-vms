@@ -2,7 +2,7 @@ provider "aws" {
     region = "us-east-1"
 }
 
-# Create a vpc 
+## Create a vpc 
 resource "aws_vpc" "main" {
   cidr_block = "10.110.0.0/16"
   enable_dns_hostnames = true
@@ -11,7 +11,7 @@ resource "aws_vpc" "main" {
   }
 }
 
-# Create a public subnet in az-1a for assessment vms
+## Create a public subnet in az-1a for assessment vms
 resource "aws_subnet" "assessment-public-subnet" {
   
   vpc_id     = "${aws_vpc.main.id}"
@@ -24,7 +24,7 @@ resource "aws_subnet" "assessment-public-subnet" {
   } 
 }
 
-# Create an ig for public subnet
+## Create an ig for public subnet
 resource "aws_internet_gateway" "assessment-internet-gw" {
     vpc_id = "${aws_vpc.main.id}"
  
@@ -33,7 +33,7 @@ resource "aws_internet_gateway" "assessment-internet-gw" {
     }
 }
 
-# Create a route table for public subnet routing default to ig
+## Create a route table for public subnet routing default to ig
 resource "aws_route_table" "assessment-rt-table-public-ig" {
     vpc_id = "${aws_vpc.main.id}"
     route {
@@ -46,13 +46,13 @@ resource "aws_route_table" "assessment-rt-table-public-ig" {
     }
 }
  
-# Create a route table associtation to public subnet
+## Create a route table associtation to public subnet
 resource "aws_route_table_association" "assessment-rt-external-association" {
     subnet_id = "${aws_subnet.assessment-public-subnet.id}"
     route_table_id = "${aws_route_table.assessment-rt-table-public-ig.id}"
 }
 
-# Create an sg allowing external ssh and ping to each other
+## Create an sg allowing external ssh and ping to each other
 resource "aws_security_group" "assessment_security_group" {
 
     name        = "assessment-vm-sg"
@@ -85,7 +85,7 @@ resource "aws_security_group" "assessment_security_group" {
     }    
 }
 
-# Generate random passwords
+## Generate random passwords
 resource "random_password" "password" {
   count            = var.vm_count
   length           = 16
@@ -93,6 +93,7 @@ resource "random_password" "password" {
   override_special = "!#$%&*()-_=+[]{}<>:?"
 }
 
+## Generate vm_count number of instances of vm_flavor ami on vm_type intance type.
 resource "aws_instance" "vm-instance" {
     count = var.vm_count
 
@@ -130,6 +131,7 @@ resource "aws_instance" "vm-instance" {
 	EOF
 }
 
+## Execute a ssh with a ping to round-robin smoke test all the newly created instances.
 resource "null_resource" "run_script" {
 
     count = var.vm_count
@@ -157,6 +159,7 @@ resource "null_resource" "run_script" {
     depends_on = [aws_instance.vm-instance]
 }
 
+## Generate the smoke test results into an output variable and a file.
 data "local_file" "results_file" {
   depends_on = [null_resource.run_script]
   filename   = "${path.module}/results"
