@@ -1,3 +1,3 @@
-ping from VM[2] - 10.110.4.35 to VM[0] - 10.110.7.125 is successfull
-ping from VM[0] - 10.110.7.125 to VM[1] - 10.110.3.135 is successfull
-ping from VM[1] - 10.110.3.135 to VM[2] - 10.110.4.35 is successfull
+ping from VM[0]-10.110.6.174 -> VM[1]-10.110.9.20 is successfull
+ping from VM[1]-10.110.9.20 -> VM[2]-10.110.12.184 is successfull
+ping from VM[2]-10.110.12.184 -> VM[0]-10.110.6.174 is successfull
