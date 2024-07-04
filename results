@@ -1,6 +1,6 @@
-ping from 10.110.2.125 to 10.110.7.68 is successfull
-ping from 10.110.7.68 to 10.110.8.49 is successfull
-ping from 10.110.8.49 to 10.110.2.125 is successfull
-ping from VM[1] - 10.110.6.102 to VM[2] - 10.110.1.153 is successfull
-ping from VM[0] - 10.110.4.50 to VM[1] - 10.110.6.102 is successfull
-ping from VM[2] - 10.110.1.153 to VM[0] - 10.110.4.50 is successfull
+
+ping from VM[2] - 10.110.4.75 to VM[0] - 10.110.2.8 is successfull
+ping from VM[0] - 10.110.2.8 to VM[1] - 10.110.0.84 is successfull
+ping from VM[2] - 10.110.7.205 to VM[0] - 10.110.11.184 is successfull
+ping from VM[0] - 10.110.11.184 to VM[1] - 10.110.9.67 is successfull
+ping from VM[1] - 10.110.9.67 to VM[2] - 10.110.7.205 is successfull
