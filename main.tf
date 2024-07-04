@@ -151,7 +151,7 @@ resource "null_resource" "run_script" {
     }
   
     provisioner "local-exec" {
-        command = "${path.module}/ping.sh ${ aws_instance.vm-instance.*.public_ip[count.index] } ${ aws_instance.vm-instance.*.private_ip[count.index] } ${ aws_instance.vm-instance.*.private_ip[(count.index + 1) % var.vm_count]} >> results"
+        command = "${path.module}/ping.sh ${count.index} ${(count.index + 1) % var.vm_count} ${ aws_instance.vm-instance.*.public_ip[count.index] } ${ aws_instance.vm-instance.*.private_ip[count.index] } ${ aws_instance.vm-instance.*.private_ip[(count.index + 1) % var.vm_count]} >> results"
     }
 
     depends_on = [aws_instance.vm-instance]
