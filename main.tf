@@ -147,7 +147,7 @@ resource "null_resource" "run_script" {
             host = "${ aws_instance.vm-instance.*.public_ip[count.index] }"
         }
 
-        inline = ["echo 'VM[${count.index}] - ${ aws_instance.vm-instance.*.public_ip[count.index] } is READY!'"]
+        inline = ["echo 'VM[${count.index}]-${ aws_instance.vm-instance.*.public_ip[count.index] } is READY!'"]
     }
   
     provisioner "local-exec" {
