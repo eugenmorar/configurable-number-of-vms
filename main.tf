@@ -100,7 +100,7 @@ resource "aws_instance" "vm-instance" {
     instance_type = var.vm_type
     key_name = "assessment-tf"
    
-        vpc_security_group_ids = ["${aws_security_group.assessment_security_group.id}"]
+    vpc_security_group_ids = ["${aws_security_group.assessment_security_group.id}"]
     subnet_id     = "${aws_subnet.assessment-public-subnet.id}"
 
     associate_public_ip_address = true
@@ -131,26 +131,30 @@ resource "aws_instance" "vm-instance" {
 }
 
 resource "null_resource" "run_script" {
+
     count = var.vm_count
 
-    triggers = {
-        public_ip = "${aws_instance.vm-instance.*.public_ip[count.index]}"
-    }
+#     triggers = {
+#         public_ip = "${aws_instance.vm-instance.*.public_ip[count.index]}"
+#         instance_id = "${ aws_instance.vm-instance.*.id[count.index] }"
+#     }
     
     provisioner "remote-exec" {
         connection {
             type = "ssh"
             user = "ubuntu"
             private_key=file("./assessment-tf.pem")
-            host = "${aws_instance.vm-instance[count.index].public_ip}"
+            host = "${ aws_instance.vm-instance.*.public_ip[count.index] }"
         }
 
-        inline = ["echo 'Connected to ${aws_instance.vm-instance[count.index].public_ip}!'"]
+        inline = ["echo 'VM[${count.index}] - ${ aws_instance.vm-instance.*.public_ip[count.index] } is READY!'"]
     }
   
     provisioner "local-exec" {
-        command = "${path.module}/ping.sh ${aws_instance.vm-instance[count.index].public_ip} ${aws_instance.vm-instance[count.index].private_ip} ${aws_instance.vm-instance[(count.index + 1) % var.vm_count].private_ip} >> results"
+        command = "${path.module}/ping.sh ${ aws_instance.vm-instance.*.public_ip[count.index] } ${ aws_instance.vm-instance.*.private_ip[count.index] } ${ aws_instance.vm-instance.*.private_ip[(count.index + 1) % var.vm_count]} >> results"
     }
+
+    depends_on = [aws_instance.vm-instance]
 }
 
 data "local_file" "results_file" {
