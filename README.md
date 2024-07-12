@@ -50,9 +50,9 @@ tomap({
 
 .../configurable-number-of-vms# terraform output private_ips
 tomap({
-  "0" = "10.110.15.221"
-  "1" = "10.110.7.47"
-  "2" = "10.110.11.234"
+  "0" = "10.110.0.100"
+  "1" = "10.110.1.128"
+  "2" = "10.110.9.154"
 })
 
 #Passwords are just for show. Don't use real creds in plain code! 
@@ -66,9 +66,9 @@ tomap({
 .../configurable-number-of-vms# terraform output ping_results
 [
   <<-EOT
-  ping from 10.110.7.47 to 10.110.11.234 is successfull
-  ping from 10.110.11.234 to 10.110.15.221 is successfull
-  ping from 10.110.15.221 to 10.110.7.47 is successfull
+  ping from VM[0]-10.110.0.100 to VM[1]-10.110.1.128 is successfull
+  ping from VM[2]-10.110.9.154 to VM[0]-10.110.0.100 is successfull
+  ping from VM[1]-10.110.1.128 to VM[2]-10.110.9.154 is successfull
 
   EOT,
 ]
