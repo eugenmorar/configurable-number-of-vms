@@ -37,7 +37,7 @@ But before launch make this preparatory step (0) create a new certificate in you
 ## How it works
 The tf code creates 13 supporting resources for $vm_count amount of ec2 instances of flavor $vm_flavor. A vpc, a public subnet, an internet gateway, a security group (with ssh access) and a route table (with default gateway) will be provided to deliver public conectivity to newly created instances. The password is generated randomly and configured as a root password using an userData commmand.
 
-In order to test the conectivity between VMs the null_script will fire every time the public_ip is changed and wait for instances to be alive before running a custom script that will ping $NEXT_PRIVATE_IP.
+In order to test the conectivity between VMs the null_script will be fired (once) after the creation of VMs verifying with a remote_exec if the instances are ready before running a local_exec script that will ping $NEXT_PRIVATE_IP.
 
 ## Results
 ```
